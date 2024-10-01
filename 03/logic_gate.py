@@ -1,15 +1,15 @@
 import numpy as np
-
+# creating a class called LogicGate where all gates like AND, NAND, OR, NOR and XOR gates
 class LogicGate:
     def __init__(self):
         pass
 
-    def and_gate(self, x1, x2):
-        w = np.array([0.5, 0.5])
-        b = -0.7
-        x = np.array([x1, x2])
+    def and_gate(self, x1, x2): # Defining AND Gate
+        w = np.array([0.5, 0.5]) # weights 
+        b = -0.7  # bias
+        x = np.array([x1, x2]) # inputs
         
-        y = np.sum(w * x) + b
+        y = np.sum(w * x) + b # output calculation
 
         if y > 0:
             return 1
@@ -17,42 +17,42 @@ class LogicGate:
             return 0
         
         
-    def nand_gate(self, x1, x2):
-        w = np.array([-0.5, -0.5])
-        b = 0.7
-        x = np.array([x1, x2])
+    def nand_gate(self, x1, x2): # Defining NAND Gate
+        w = np.array([-0.5, -0.5]) # weights 
+        b = 0.7 # bias
+        x = np.array([x1, x2]) # inputs
         
-        y = np.sum(w * x) + b
+        y = np.sum(w * x) + b # output calculation
 
         if y > 0:
             return 1
         else:
             return 0
         
-    def or_gate(self, x1, x2):
-        w = np.array([1.0, 1.0])
-        b = -0.9
-        x = np.array([x1, x2])
+    def or_gate(self, x1, x2): # Defining OR Gate
+        w = np.array([1.0, 1.0]) # weights 
+        b = -0.9 # bias
+        x = np.array([x1, x2]) # inputs
         
-        y = np.sum(w * x) + b
+        y = np.sum(w * x) + b # output calculation
         
         if y > 0:
             return 1
         else:
             return 0
         
-    def nor_gate(self, x1, x2):
-        w = np.array([-1.0, -1.0])
-        b = 0.9
-        x = np.array([x1, x2])
+    def nor_gate(self, x1, x2): # Defining NOR Gate
+        w = np.array([-1.0, -1.0]) # weights 
+        b = 0.9 # bias
+        x = np.array([x1, x2]) # inputs
         
-        y = np.sum(w * x) + b
+        y = np.sum(w * x) + b # output calculation
         if y > 0:
             return 1
         else:
             return 0
         
-    def xor_gate(self, x1, x2):
+    def xor_gate(self, x1, x2): # Defining XOR Gate using AND of OR and NAND
         y1 = self.or_gate(x1, x2)
         y2 = self.nand_gate(x1, x2)
         return self.and_gate(y1, y2)
