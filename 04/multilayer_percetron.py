@@ -1,6 +1,6 @@
 import numpy as np
 
-class MultiLayerPerceptron:
+class MultilayerPerceptron:
     def __init__(self):
         # Initialize an empty dictionary to hold the network parameters (weights and biases)
         self.net = {}
