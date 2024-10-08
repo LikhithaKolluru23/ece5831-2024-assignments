@@ -2,7 +2,7 @@ from multilayer_percetron import MultiLayerPerceptron #importing the class Multi
 import numpy as np
 mlp=MultiLayerPerceptron()  # Creating an instance of MultiLayerPerceptron
 mlp.init_network() #calling this method to initialize the network
-x = np.array([0.5, 0.6]) # Input vector
+x = np.array([7.0, 2.0]) # Input vector
 # Forward pass
 output = mlp.forward(x)
 print(f"Output of {x}  as an input: {output}")
