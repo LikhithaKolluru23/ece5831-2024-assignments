@@ -1,3 +1,32 @@
+"""
+rock-paper-scissors.py
+
+This script uses a pre-trained Keras model to predict the class of an input image like rock, paper, scissors from a given image file. It prepares the image 
+by resizing, normalizing, and feeding it to the model, then outputs the predicted 
+class and confidence score. It also displays the image with the prediction and 
+confidence using matplotlib.
+
+Functions:
+-----------
+prepare_image(image_path):
+    Loads, resizes, and normalizes an image to the required shape for model prediction.
+
+main(image_path):
+    Prepares the image and uses the pre-trained Keras model to predict the class. 
+    It outputs the predicted class and confidence score and displays the image 
+    with the prediction.
+
+Usage:
+------
+Run the script from the command line by providing the image path:
+    python rock-paper-scissors.py <image_path>
+
+Parameters:
+-----------
+image_path (str): The file path to the image you want to classify.
+
+"""
+
 import sys
 from keras.models import load_model
 from PIL import Image, ImageOps
