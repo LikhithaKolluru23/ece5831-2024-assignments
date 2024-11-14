@@ -3,4 +3,7 @@
 05/Samples
 05-3/dataset
 05-3/model
-
+06/dataset
+06/model
+06/__pycache__
+.DS_Store
