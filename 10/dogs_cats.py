@@ -8,8 +8,8 @@ class DogsCatsClassifier:
     CLASS_NAMES = ['dog', 'cat']
     IMAGE_SHAPE = (180, 180, 3)
     BATCH_SIZE = 32
-    BASE_DIR = pathlib.Path('/content/drive/MyDrive/dogs-vs-cats')
-    SRC_DIR = pathlib.Path('/content/drive/MyDrive/dogs-vs-cats-original/train')
+    BASE_DIR = pathlib.Path('dogs-vs-cats')
+    SRC_DIR = pathlib.Path('dogs-vs-cats-original/train')
     EPOCHS = 20
 
     def __init__(self):
