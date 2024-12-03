@@ -61,23 +61,34 @@ class DogsCatsClassifier:
         self.test_dataset = self._make_dataset('test')
 
     def build_network(self, augmentation=True):
-        """Builds and compiles the neural network."""
+        """Builds and compiles a neural network with reduced parameters."""
         inputs = tf.keras.Input(shape=self.IMAGE_SHAPE)
         x = inputs
+
+        # Data Augmentation
         if augmentation:
             x = tf.keras.Sequential([
                 tf.keras.layers.RandomFlip('horizontal'),
                 tf.keras.layers.RandomRotation(0.1),
                 tf.keras.layers.RandomZoom(0.2)
             ])(x)
+
+        # Rescaling the pixel values
         x = tf.keras.layers.Rescaling(1.0 / 255)(x)
+
+        # Convolutional Layers with Reduced Filters
+        x = tf.keras.layers.Conv2D(16, 3, activation='relu')(x)
+        x = tf.keras.layers.MaxPooling2D(2)(x)
         x = tf.keras.layers.Conv2D(32, 3, activation='relu')(x)
         x = tf.keras.layers.MaxPooling2D(2)(x)
         x = tf.keras.layers.Conv2D(64, 3, activation='relu')(x)
-        x = tf.keras.layers.MaxPooling2D(2)(x)
-        x = tf.keras.layers.Flatten()(x)
-        x = tf.keras.layers.Dense(128, activation='relu')(x)
+        x = tf.keras.layers.GlobalAveragePooling2D()(x)  # Reduces parameters significantly
+
+        # Dense Layer with Reduced Neurons
+        x = tf.keras.layers.Dense(64, activation='relu')(x)
         outputs = tf.keras.layers.Dense(1, activation='sigmoid')(x)
+
+        # Building the Model
         self.model = tf.keras.Model(inputs, outputs)
         self.model.compile(
             optimizer='adam',
@@ -85,20 +96,33 @@ class DogsCatsClassifier:
             metrics=['accuracy']
         )
 
-    def train(self, model_name):
-        """Trains the model and plots training metrics."""
-        model_name = f"model.Likhitha-Kolluru.dogs-cats.keras"
+    def train(self, model_name, target_accuracy=0.72): ### Because the data is large, making the model to train until it reaches only 72% accuracy
+        """Trains the model and stops when the target accuracy is reached."""
+        
+        def stop_training_callback(epoch, logs):
+            """Stops training when the target accuracy is reached."""
+            current_accuracy = logs.get("accuracy")  # Use "val_accuracy" for validation accuracy
+            if current_accuracy >= target_accuracy:
+                print(f"\nReached {target_accuracy * 100:.2f}% accuracy. Stopping training!")
+                self.model.stop_training = True
 
+        # Wrap the custom callback function
+        stop_callback = tf.keras.callbacks.LambdaCallback(on_epoch_end=stop_training_callback)
+        
         callbacks = [
             tf.keras.callbacks.EarlyStopping(patience=3),
             tf.keras.callbacks.ModelCheckpoint(filepath=model_name),
+            stop_callback  # Add the lambda callback here
         ]
+        
         history = self.model.fit(
             self.train_dataset,
             validation_data=self.valid_dataset,
             epochs=self.EPOCHS,
             callbacks=callbacks
         )
+        
+        # Plot training metrics
         acc = history.history['accuracy']
         val_acc = history.history['val_accuracy']
         plt.plot(acc, label='Training Accuracy')
